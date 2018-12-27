@@ -1,0 +1,7 @@
+{
+  "name": "tiny-note",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}
