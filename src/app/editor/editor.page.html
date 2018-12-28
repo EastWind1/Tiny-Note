@@ -8,11 +8,21 @@
 </ion-header>
 
 <ion-content padding>
-  <div contenteditable="true" name="editor" class="editor"></div>
-  <input #selectFile type="file" accept="image/*" (change)="getFile($event)" hidden>
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button (click)="selectFile.click()">
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
+  <div *ngIf="editable">
+    <div contenteditable="true" name="editor" class="editor"></div>
+    <input #selectFile type="file" accept="image/*" (change)="getFile($event)" hidden>
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button (click)="selectFile.click()">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+    <ion-fab vertical="bottom" horizontal="start" slot="fixed">
+      <ion-fab-button (click)="add()">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </div>
+  <div *ngIf="!editable">
+    <div name="editor" class="editor"></div>
+  </div>
 </ion-content>

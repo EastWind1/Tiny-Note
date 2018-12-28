@@ -11,6 +11,10 @@ const routes: Routes = [
   {
     path: '',
     component: EditorPage
+  },
+  {
+    path: ':id',
+    component: EditorPage
   }
 ];
 

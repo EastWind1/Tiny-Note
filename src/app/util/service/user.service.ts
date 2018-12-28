@@ -1,3 +1,4 @@
+import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -28,7 +29,7 @@ export class UserService {
     };
     // 此处必须设置请求数据类型为x-www-form-urlencoded，并将数据转化为key=value形式，以模拟表单提交，
     // 可用new UrlSearchParams({xx: xx})，部分浏览器不支持
-    this.http.post('/api/login', `username=${user.username}&password=${user.password}`, { headers: headers }).subscribe(
+    this.http.post(environment.api + '/api/login', `username=${user.username}&password=${user.password}`, { headers: headers }).subscribe(
       result => {
         if (result['status']) {
           this.loginUser = user;
@@ -48,7 +49,7 @@ export class UserService {
 
   @Log
   getLoginStatus(): Observable<boolean> {
-    return this.http.get<boolean>('/api/user').pipe(
+    return this.http.get<boolean>(environment.api + '/api/user').pipe(
       catchError(() => {
         this.loginUser = null;
         return of(false);
@@ -62,7 +63,7 @@ export class UserService {
     const headers = {
       'Content-Type': 'application/x-www-form-urlencoded'
     };
-    this.http.post('/api/user', `username=${user.username}&password=${user.password}`, { headers: headers }).pipe(
+    this.http.post(environment.api + '/api/user', `username=${user.username}&password=${user.password}`, { headers: headers }).pipe(
       switchMap(result => of(true)),
       catchError(err => {
         this.notifyService.toast('用户已存在');
