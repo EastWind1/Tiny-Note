@@ -12,15 +12,13 @@
 <ion-content>
   <ion-list>
     <ion-item *ngFor="let note of notes" [routerLink]="'/editor/'+note.note_id">
-      <span [innerHTML]="note.note_content"></span>
+      <ion-avatar slot="start" [innerHTML]="note.note_icon">
+      </ion-avatar>
+      <ion-label [innerHTML]="note.note_content">
+      </ion-label>
       <div class="item-note" slot="end">
         {{note.note_date}}
       </div>
     </ion-item>
   </ion-list>
-  <!--
-    <div *ngIf="selectedItem" padding>
-      You navigated here from <b>{{selectedItem.title }}</b>
-    </div>
-  -->
 </ion-content>

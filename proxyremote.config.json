@@ -1,0 +1,13 @@
+{
+    "/api": {
+      "target": "http://180.76.150.48:8080",
+      "secure": "false"
+    },
+    "/static": {
+      "target": "http://180.76.150.48:8080",
+      "secure": "false",
+      "pathRewrite": {
+        "^/static": "/userfiles"
+      }
+    }
+  }

@@ -17,7 +17,7 @@ export class NoteService {
 
   @Log
   getShared() {
-    return this.http.get<Note[]>(this.baseApi, {params: {'type': 'shared'}}).pipe(
+    return this.http.get<Note[]>(this.baseApi, {withCredentials: true, params: {'type': 'shared'}}).pipe(
       catchError(_ => of(false)
       )
     );
@@ -25,7 +25,7 @@ export class NoteService {
 
   @Log
   getUserNote() {
-    return this.http.get<Note[]>(this.baseApi, {params: {'type': 'user'}}).pipe(
+    return this.http.get<Note[]>(this.baseApi, {withCredentials: true, params: {'type': 'user'}}).pipe(
       catchError(_ => of(false)
       )
     );
@@ -33,7 +33,7 @@ export class NoteService {
 
   @Log
   add(note: Note) {
-    return this.http.post(this.baseApi, note).pipe(
+    return this.http.post(this.baseApi, note, {withCredentials: true}).pipe(
       catchError(_ => of(false)
       )
     );
@@ -41,7 +41,7 @@ export class NoteService {
 
   @Log
   getById(id) {
-    return this.http.get<Note>(this.baseApi + `/${id}`).pipe(
+    return this.http.get<Note>(this.baseApi + `/${id}`, {withCredentials: true}).pipe(
       catchError(_ => of(false)
       )
     );

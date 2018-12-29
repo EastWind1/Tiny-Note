@@ -20,7 +20,7 @@ export class FileService {
       const file: File = files[0];
       const formData: FormData = new FormData();
       formData.append('file', file, file.name);
-      return this.http.post(this.baseApi, formData).pipe(
+      return this.http.post(this.baseApi, formData, {withCredentials: true}).pipe(
         switchMap(result => of(result)),
         catchError(() => of(false))
       );
@@ -29,7 +29,7 @@ export class FileService {
 
   @Log
   download(fullfilename: string) {
-    return this.http.get(this.baseApi, { params: { 'filedir': fullfilename }, responseType: 'blob' }).pipe(
+    return this.http.get(this.baseApi, {withCredentials: true, params: { 'filedir': fullfilename }, responseType: 'blob' }).pipe(
       switchMap(result => {
         const url = URL.createObjectURL(result);
         return of(url);

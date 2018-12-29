@@ -20,6 +20,7 @@ export class ListPage implements OnInit {
         const temp = <Note[]>result;
         temp.forEach(note => {
           if (note.note_content) {
+            note.note_icon = note.note_content.match(/(<img.*\/>)?/g)[0];
             note.note_content = note.note_content.replace(/(<img.*\/>)?/g, '').substring(0, 20);
           }
           this.notes.push(note);

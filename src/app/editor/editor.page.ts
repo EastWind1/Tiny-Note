@@ -23,8 +23,10 @@ export class EditorPage implements OnInit {
   }
 
   ngOnInit() {
-    if (this.route.snapshot.params['id']) {
+    const id = this.route.snapshot.params['id'];
+    if (id) {
       this.editable = false;
+      this.load(id);
     }
   }
 
@@ -44,8 +46,12 @@ export class EditorPage implements OnInit {
     this.noteService.add(note).subscribe();
   }
 
-  load() {
-    this.editor = document.getElementsByName('editor')[0];
-
+  load(id: number) {
+    this.noteService.getById(id).subscribe(
+      result => {
+        this.editor = document.getElementsByName('editor')[0];
+        this.editor.innerHTML = (<Note>result).note_content;
+      }
+    );
   }
 }
