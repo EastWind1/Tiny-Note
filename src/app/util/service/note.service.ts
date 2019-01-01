@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 import { Note } from '../entity/note';
 import { Log } from '../decorator/log.decorator';
+import { UserService } from './user.service';
 
 @Injectable()
 export class NoteService {
@@ -12,12 +13,13 @@ export class NoteService {
   private baseApi = environment.api + '/api/note';
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private userService: UserService
   ) { }
 
   @Log
   getShared() {
-    return this.http.get<Note[]>(this.baseApi, {withCredentials: true, params: {'type': 'shared'}}).pipe(
+    return this.http.get<Note[]>(this.baseApi, {params: {'type': 'shared'}}).pipe(
       catchError(_ => of(false)
       )
     );
@@ -25,7 +27,7 @@ export class NoteService {
 
   @Log
   getUserNote() {
-    return this.http.get<Note[]>(this.baseApi, {withCredentials: true, params: {'type': 'user'}}).pipe(
+    return this.http.get<Note[]>(this.baseApi, { params: {'type': 'user'}}).pipe(
       catchError(_ => of(false)
       )
     );
@@ -33,15 +35,15 @@ export class NoteService {
 
   @Log
   add(note: Note) {
-    return this.http.post(this.baseApi, note, {withCredentials: true}).pipe(
+    return this.http.post(this.baseApi, note).pipe(
       catchError(_ => of(false)
       )
     );
   }
 
   @Log
-  getById(id) {
-    return this.http.get<Note>(this.baseApi + `/${id}`, {withCredentials: true}).pipe(
+  getById(id: number) {
+    return this.http.get<Note>(this.baseApi + `/${id}`).pipe(
       catchError(_ => of(false)
       )
     );

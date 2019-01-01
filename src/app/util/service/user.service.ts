@@ -1,10 +1,10 @@
 import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../entity/user';
 import { Log } from '../decorator/log.decorator';
-import { tap, catchError, switchMap } from 'rxjs/operators';
+import { catchError, switchMap } from 'rxjs/operators';
 import { of, Observable } from 'rxjs';
 import { NotifyService } from './notify.service';
 
@@ -13,8 +13,9 @@ import { NotifyService } from './notify.service';
 })
 export class UserService {
 
-  loginUser = null;
-  tempRoute = null;
+  loginUser: User;
+  tempRoutePath: string;
+  token: string;
 
   constructor(
     private http: HttpClient,
@@ -30,14 +31,15 @@ export class UserService {
     // 此处必须设置请求数据类型为x-www-form-urlencoded，并将数据转化为key=value形式，以模拟表单提交，
     // 可用new UrlSearchParams({xx: xx})，部分浏览器不支持
     this.http.post(environment.api + '/api/login', `username=${user.username}&password=${user.password}`,
-                  { headers: headers, withCredentials: true }).subscribe(
-      result => {
-        if (result['status']) {
+                  { headers: headers, observe: 'response' }).subscribe(
+      resopnse => {
+        if (resopnse.body['status']) {
           this.loginUser = user;
+          this.token = resopnse.headers.get('Authorization');
           this.notifyService.toast('登陆成功');
-          if (this.tempRoute) {
-            this.router.navigate([this.tempRoute]);
-            this.tempRoute = null;
+          if (this.tempRoutePath) {
+            this.router.navigate([this.tempRoutePath]);
+            this.tempRoutePath = null;
           } else {
             this.router.navigate(['/home']);
           }
@@ -50,7 +52,7 @@ export class UserService {
 
   @Log
   getLoginStatus(): Observable<boolean> {
-    return this.http.get<boolean>(environment.api + '/api/user', { withCredentials: true }).pipe(
+    return this.http.get<boolean>(environment.api + '/api/user').pipe(
       catchError(() => {
         this.loginUser = null;
         return of(false);
@@ -65,7 +67,7 @@ export class UserService {
       'Content-Type': 'application/x-www-form-urlencoded'
     };
     this.http.post(environment.api + '/api/user', `username=${user.username}&password=${user.password}`,
-      { headers: headers, withCredentials: true}).pipe(
+      { headers: headers}).pipe(
       switchMap(result => of(true)),
       catchError(err => {
         this.notifyService.toast('用户已存在');

@@ -34,7 +34,7 @@ export class EditorPage implements OnInit {
     this.editor = document.getElementsByName('editor')[0];
     this.fileService.upload(event.target.files).subscribe( result => {
       if (result) {
-        this.editor.innerHTML += `<img src="${environment.api}/static${result}"/>>`;
+        this.editor.innerHTML += `<img src="${environment.api}/userfiles${result}"/>>`;
       }
     });
   }

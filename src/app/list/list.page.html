@@ -12,7 +12,8 @@
 <ion-content>
   <ion-list>
     <ion-item *ngFor="let note of notes" [routerLink]="'/editor/'+note.note_id">
-      <ion-avatar slot="start" [innerHTML]="note.note_icon">
+      <ion-avatar slot="start">
+        <img *ngIf="note.note_icon" [src]="note.note_icon" />
       </ion-avatar>
       <ion-label [innerHTML]="note.note_content">
       </ion-label>

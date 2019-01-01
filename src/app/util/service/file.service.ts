@@ -1,3 +1,4 @@
+import { UserService } from './user.service';
 import { environment } from '../../../environments/environment';
 import { of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -11,7 +12,8 @@ export class FileService {
   private baseApi = environment.api + '/api/file';
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private userService: UserService
   ) { }
 
   @Log
@@ -20,21 +22,24 @@ export class FileService {
       const file: File = files[0];
       const formData: FormData = new FormData();
       formData.append('file', file, file.name);
-      return this.http.post(this.baseApi, formData, {withCredentials: true}).pipe(
+      return this.http.post(this.baseApi, formData).pipe(
         switchMap(result => of(result)),
         catchError(() => of(false))
       );
     }
   }
-
   @Log
-  download(fullfilename: string) {
-    return this.http.get(this.baseApi, {withCredentials: true, params: { 'filedir': fullfilename }, responseType: 'blob' }).pipe(
-      switchMap(result => {
-        const url = URL.createObjectURL(result);
-        return of(url);
-      }),
-      catchError(() => of(false))
+  get(url: string) {
+    return this.http.get(url, { responseType: 'blob'}).pipe(
+      switchMap(blob => {
+        const bloburl = URL.createObjectURL(blob);
+        return of(bloburl);
+      })
     );
+  }
+
+  addImageToken(content: string) {
+    const urlToken = this.userService.token.replace(/\s/, '%20');
+    return content.replace(/<img src="(.*?)"\/>/g,  `<img src="$1?Authorization=${urlToken}"/>`);
   }
 }

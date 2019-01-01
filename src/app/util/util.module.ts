@@ -6,6 +6,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { HtmlPipe } from './pipe/html.pipe';
+import { httpInterceptorProviders } from './interceptor';
 
 @NgModule({
   declarations: [HtmlPipe],
@@ -17,7 +18,8 @@ import { HtmlPipe } from './pipe/html.pipe';
     NotifyService,
     LoginGuard,
     FileService,
-    NoteService
+    NoteService,
+    httpInterceptorProviders
   ]
 })
 export class UtilModule { }

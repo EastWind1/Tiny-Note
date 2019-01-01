@@ -5,8 +5,8 @@
   "homepage": "http://ionicframework.com/",
   "scripts": {
     "ng": "ng",
-    "start": "ionic serve -- --proxy-config proxy.config.json",
-    "startremote": "ionic serve -- --proxy-config proxyremote.config.json",
+    "start": "ionic serve",
+    "startremote": "ionic serve --prod",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",

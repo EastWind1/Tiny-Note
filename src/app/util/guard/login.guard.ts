@@ -15,7 +15,7 @@ export class LoginGuard implements CanLoad {
     return this.userService.getLoginStatus().pipe(
       tap( result => {
         if (!result) {
-          this.userService.tempRoute = route.path;
+          this.userService.tempRoutePath = route.path;
           this.router.navigate(['/login']);
         }
       })
