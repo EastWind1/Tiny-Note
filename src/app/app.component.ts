@@ -24,6 +24,11 @@ export class AppComponent {
       title: '编辑器',
       url: '/editor',
       icon: 'paper'
+    },
+    {
+      title: '文件',
+      url: '/file',
+      icon: 'folder'
     }
   ];
 

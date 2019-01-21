@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      文件
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let file of files" (press)="delete(file)">
+      <ion-label>
+        <h3>{{file.name}}</h3>
+        <p>{{file.date}}</p>
+      </ion-label>
+      <div class="item-note" slot="end">
+        <ion-icon name="arrow-round-down" (click)="downLoad(file)"></ion-icon>
+      </div>
+    </ion-item>
+  </ion-list>
+  <input #selectFile type="file" (change)="getFile($event)" hidden>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="selectFile.click()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

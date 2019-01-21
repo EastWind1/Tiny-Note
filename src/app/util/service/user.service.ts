@@ -1,7 +1,7 @@
 import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { User } from '../entity/user';
 import { Log } from '../decorator/log.decorator';
 import { catchError, switchMap } from 'rxjs/operators';

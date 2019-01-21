@@ -18,7 +18,8 @@ const routes: Routes = [
     canLoad: [LoginGuard]
   },
   { path: 'login', loadChildren: './login/login.module#LoginPageModule' },
-  { path: 'editor', loadChildren: './editor/editor.module#EditorPageModule' }
+  { path: 'editor', loadChildren: './editor/editor.module#EditorPageModule', canLoad: [LoginGuard] },
+  { path: 'file', loadChildren: './file/file.module#FilePageModule', canLoad: [LoginGuard] }
 ];
 
 @NgModule({

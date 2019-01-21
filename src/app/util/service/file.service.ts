@@ -3,8 +3,9 @@ import { environment } from '../../../environments/environment';
 import { of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { switchMap, catchError } from 'rxjs/operators';
+import { switchMap, catchError, tap } from 'rxjs/operators';
 import { Log } from '../decorator/log.decorator';
+import { UserFile } from '../entity/file';
 
 @Injectable()
 export class FileService {
@@ -29,17 +30,28 @@ export class FileService {
     }
   }
   @Log
-  get(url: string) {
-    return this.http.get(url, { responseType: 'blob'}).pipe(
-      switchMap(blob => {
-        const bloburl = URL.createObjectURL(blob);
-        return of(bloburl);
-      })
+  getUserFiles() {
+    return this.http.get<UserFile[]>(this.baseApi).pipe(
+      catchError(_ => of([]))
     );
   }
 
   addImageToken(content: string) {
     const urlToken = this.userService.token.replace(/\s/, '%20');
-    return content.replace(/<img src="(.*?)"\/>/g,  `<img src="$1?Authorization=${urlToken}"/>`);
+    return content.replace(/<img src="(.*?)">/g,  `<img src="$1?Authorization=${urlToken}">`);
+  }
+
+  removeImageToken(content: string) {
+    return content.replace(/<img src="(.*?)(\?Authorization=.*?)"/g,  `<img src="$1"`);
+  }
+
+  makeFileUrl(file: UserFile) {
+    const urlToken = this.userService.token.replace(/\s/, '%20');
+    return `${environment.api}/userfiles${file.path}?Authorization=${urlToken}`;
+  }
+
+  @Log
+  delete(file: UserFile) {
+    return this.http.delete(`${this.baseApi}/${file.id}`);
   }
 }

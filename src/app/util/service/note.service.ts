@@ -1,11 +1,11 @@
-import { catchError } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { environment } from './../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 import { Note } from '../entity/note';
 import { Log } from '../decorator/log.decorator';
-import { UserService } from './user.service';
+import { NotifyService } from './notify.service';
 
 @Injectable()
 export class NoteService {
@@ -14,7 +14,7 @@ export class NoteService {
 
   constructor(
     private http: HttpClient,
-    private userService: UserService
+    private notifyService: NotifyService
   ) { }
 
   @Log
@@ -36,6 +36,9 @@ export class NoteService {
   @Log
   add(note: Note) {
     return this.http.post(this.baseApi, note).pipe(
+      tap(
+        _ => this.notifyService.toast('添加成功')
+      ),
       catchError(_ => of(false)
       )
     );

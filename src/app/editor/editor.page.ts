@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FileService } from '../util/service/file.service';
 import { NoteService } from '../util/service/note.service';
 import { Note } from '../util/entity/note';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-editor',
@@ -18,7 +18,8 @@ export class EditorPage implements OnInit {
   constructor(
     private fileService: FileService,
     private noteService: NoteService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {
   }
 
@@ -34,7 +35,7 @@ export class EditorPage implements OnInit {
     this.editor = document.getElementsByName('editor')[0];
     this.fileService.upload(event.target.files).subscribe( result => {
       if (result) {
-        this.editor.innerHTML += `<img src="${environment.api}/userfiles${result}"/>>`;
+        this.editor.innerHTML += this.fileService.addImageToken(`<img src="${environment.api}/userfiles${result}">`);
       }
     });
   }
@@ -42,15 +43,19 @@ export class EditorPage implements OnInit {
   add() {
     this.editor = document.getElementsByName('editor')[0];
     const note = new Note();
-    note.note_content = this.editor.innerHTML;
-    this.noteService.add(note).subscribe();
+    note.note_content = this.fileService.removeImageToken(this.editor.innerHTML);
+    this.noteService.add(note).subscribe(
+      value => {
+        this.router.navigate(['/list']);
+      }
+    );
   }
 
   load(id: number) {
     this.noteService.getById(id).subscribe(
       result => {
         this.editor = document.getElementsByName('editor')[0];
-        this.editor.innerHTML = (<Note>result).note_content;
+        this.editor.innerHTML = this.fileService.addImageToken((<Note>result).note_content);
       }
     );
   }
