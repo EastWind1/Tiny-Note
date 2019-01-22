@@ -283,6 +283,13 @@
     lodash "^4.17.10"
     to-fast-properties "^2.0.0"
 
+"@ionic-native/app-minimize@^5.0.0-beta.24":
+  version "5.0.0-beta.24"
+  resolved "http://registry.npm.taobao.org/@ionic-native/app-minimize/download/@ionic-native/app-minimize-5.0.0-beta.24.tgz#3b76e9dd2505494d46eaf6e031ccdf619df1d95c"
+  integrity sha1-O3bp3SUFSU1G6vbgMczfYZ3x2Vw=
+  dependencies:
+    "@types/cordova" latest
+
 "@ionic-native/core@5.0.0-beta.21":
   version "5.0.0-beta.21"
   resolved "http://registry.npm.taobao.org/@ionic-native/core/download/@ionic-native/core-5.0.0-beta.21.tgz#45f8a3cc0803ae321566f320e42381697ab4271c"
@@ -1872,6 +1879,11 @@ cordova-plugin-advanced-http@2.0.2:
   version "2.0.2"
   resolved "http://registry.npm.taobao.org/cordova-plugin-advanced-http/download/cordova-plugin-advanced-http-2.0.2.tgz#a75834249aec411a4329f58930dfc3c3a01de71b"
   integrity sha1-p1g0JJrsQRpDKfWJMN/Dw6Ad5xs=
+
+cordova-plugin-appminimize@1.0.1:
+  version "1.0.1"
+  resolved "http://registry.npm.taobao.org/cordova-plugin-appminimize/download/cordova-plugin-appminimize-1.0.1.tgz#cea84b93c5d95ba9ebf7a91180c7893beaa3425a"
+  integrity sha1-zqhLk8XZW6nr96kRgMeJO+qjQlo=
 
 cordova-plugin-device@^2.0.2:
   version "2.0.2"
