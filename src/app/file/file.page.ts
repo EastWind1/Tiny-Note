@@ -41,13 +41,7 @@ export class FilePage implements OnInit {
       }
     });
   }
-  deleteFile(file: UserFile) {
-    this.fileService.delete(file).subscribe(result => {
-      if (result) {
-        this.notifyService.toast('删除成功');
-      }
-    });
-  }
+
   delete(file: UserFile) {
     this.notifyService.confirm(`是否删除文件-${file.name}`, this, () => {
       this.fileService.delete(file).subscribe(result => {

@@ -11,8 +11,7 @@ import { httpInterceptorProviders } from './interceptor';
 @NgModule({
   declarations: [HtmlPipe],
   imports: [
-    CommonModule,
-    HttpClientModule
+    CommonModule
   ],
   providers: [
     NotifyService,

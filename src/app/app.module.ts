@@ -1,3 +1,4 @@
+import { HttpClientModule } from '@angular/common/http';
 import { UtilModule } from './util/util.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -9,6 +10,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { AppMinimize } from '@ionic-native/app-minimize/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -17,12 +19,14 @@ import { AppRoutingModule } from './app-routing.module';
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    UtilModule
+    UtilModule,
+    HttpClientModule
   ],
   providers: [
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    AppMinimize
   ],
   bootstrap: [AppComponent]
 })
