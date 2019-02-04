@@ -51,4 +51,11 @@ export class NoteService {
       )
     );
   }
+
+  @Log
+  delete(id: number) {
+    return this.http.delete(this.baseApi + `/${id}`).pipe(
+      catchError(_ => of(false))
+    );
+  }
 }

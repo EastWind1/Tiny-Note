@@ -1,8 +1,8 @@
+import { NotifyService } from './../util/service/notify.service';
 import { Component, OnInit } from '@angular/core';
 import { Note } from '../util/entity/note';
 import { NoteService } from '../util/service/note.service';
 import { FileService } from '../util/service/file.service';
-import { UserFile } from '../util/entity/file';
 
 @Component({
   selector: 'app-list',
@@ -13,7 +13,8 @@ export class ListPage implements OnInit {
   notes: Note[] = [];
   constructor(
     private noteService: NoteService,
-    private fileService: FileService
+    private fileService: FileService,
+    private notifyService: NotifyService
   ) {
   }
 
@@ -33,5 +34,14 @@ export class ListPage implements OnInit {
         });
       }
     );
+  }
+
+  delete(note: Note) {
+    this.notifyService.confirm(`是否删除笔记-${note.note_id}`, this, () => {
+      this.noteService.delete(note.note_id).subscribe(result => {
+        this.notes.splice(this.notes.indexOf(note), 1);
+        this.notifyService.toast('删除成功');
+      });
+    });
   }
 }

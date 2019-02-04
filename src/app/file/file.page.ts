@@ -8,6 +8,9 @@ import { UserFile } from '../util/entity/file';
   templateUrl: './file.page.html',
   styleUrls: ['./file.page.scss'],
 })
+/**
+ * 文件列表界面
+ */
 export class FilePage implements OnInit {
 
   files: UserFile[] = [];
@@ -46,7 +49,7 @@ export class FilePage implements OnInit {
     this.notifyService.confirm(`是否删除文件-${file.name}`, this, () => {
       this.fileService.delete(file).subscribe(result => {
         if (result) {
-          this.files.splice(this.files.indexOf(file), 1);
+          this.files.splice(this.files.indexOf(file), 1); // 删除数组中的指定文件
           this.notifyService.toast('删除成功');
         }
       });

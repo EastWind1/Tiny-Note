@@ -10,6 +10,9 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './editor.page.html',
   styleUrls: ['./editor.page.scss'],
 })
+/**
+ * 编辑器界面
+ */
 export class EditorPage implements OnInit {
 
   editor: Element;
