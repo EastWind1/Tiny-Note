@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
-import { ToastController, AlertController } from '@ionic/angular';
+import { ToastController, AlertController, ActionSheetController } from '@ionic/angular';
+import { ActionSheetButton } from '@ionic/core';
 
 @Injectable()
 export class NotifyService {
   constructor(
     private toastCOntroller: ToastController,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private actionSheetController: ActionSheetController
   ) { }
 
   async toast(message: string) {
@@ -14,7 +16,7 @@ export class NotifyService {
       position: 'bottom',
       duration: 2000
     });
-    toast.present();
+    await toast.present();
   }
 
   async confirm(message: string, context: any, successCallback: Function, args?: any[]) { // 调用类方法的回调，必须获取方法所在上下文，否则使用this会导致undefined
@@ -30,6 +32,14 @@ export class NotifyService {
         }
       ]
     });
-    alert.present();
+    await alert.present();
+  }
+
+  async action(header: string, actionButtons: ActionSheetButton[]) { // 调用类方法的回调，必须获取方法所在上下文，否则使用this会导致undefined
+    const action = await this.actionSheetController.create({
+      header: header,
+      buttons: actionButtons
+    });
+    await action.present();
   }
 }

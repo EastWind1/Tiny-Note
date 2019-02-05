@@ -53,6 +53,13 @@ export class NoteService {
   }
 
   @Log
+  shared(id: number) {
+    return this.http.put(this.baseApi + `/${id}`, {}).pipe(
+      catchError(_ => of(false))
+    );
+  }
+
+  @Log
   delete(id: number) {
     return this.http.delete(this.baseApi + `/${id}`).pipe(
       catchError(_ => of(false))

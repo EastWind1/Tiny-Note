@@ -36,12 +36,30 @@ export class ListPage implements OnInit {
     );
   }
 
-  delete(note: Note) {
-    this.notifyService.confirm(`是否删除笔记-${note.note_id}`, this, () => {
-      this.noteService.delete(note.note_id).subscribe(result => {
-        this.notes.splice(this.notes.indexOf(note), 1);
-        this.notifyService.toast('删除成功');
-      });
-    });
+  action(note: Note) {
+    this.notifyService.action(`笔记-${note.note_date}`,  [
+      {
+        text: '分享',
+        handler: () => {
+          this.noteService.shared(note.note_id).subscribe( () => {
+            this.notifyService.toast('分享成功');
+          });
+        }
+      },
+      {
+        text: '删除',
+        role: 'destructive',
+        handler: () => {
+          this.noteService.delete(note.note_id).subscribe(() => {
+              this.notes.splice(this.notes.indexOf(note), 1); // 删除数组中的指定文件
+              this.notifyService.toast('删除成功');
+          });
+        }
+      },
+      {
+        text: '取消',
+        role: 'cancel'
+      }
+    ]);
   }
 }

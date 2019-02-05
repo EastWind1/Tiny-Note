@@ -45,14 +45,24 @@ export class FilePage implements OnInit {
     });
   }
 
-  delete(file: UserFile) {
-    this.notifyService.confirm(`是否删除文件-${file.name}`, this, () => {
-      this.fileService.delete(file).subscribe(result => {
-        if (result) {
-          this.files.splice(this.files.indexOf(file), 1); // 删除数组中的指定文件
-          this.notifyService.toast('删除成功');
+  action(file: UserFile) {
+    this.notifyService.action(`文件-${file.name}`,  [
+      {
+        text: '删除',
+        role: 'destructive',
+        handler: () => {
+          this.fileService.delete(file).subscribe(result => {
+            if (result) {
+              this.files.splice(this.files.indexOf(file), 1); // 删除数组中的指定文件
+              this.notifyService.toast('删除成功');
+            }
+          });
         }
-      });
-    });
+      },
+      {
+        text: '取消',
+        role: 'cancel'
+      }
+    ]);
   }
 }
